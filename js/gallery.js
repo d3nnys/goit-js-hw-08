@@ -67,7 +67,7 @@ const images = [
 ];
 
 const portfolio = document.querySelector('.gallery');
-portfolio.innerHTML = createImages(images);
+// portfolio.innerHTML = createImages(images);
 
 function createImages({ preview, original, description }) {
   const elements = `
