@@ -130,7 +130,7 @@ items.forEach(item => {
   });
 });
 
-document.addEventListener('keydown', ({ code }) => {
+document.addEventListener('keyup', ({ code }) => {
   if (code !== 'Escape') {
     return;
   }
