@@ -67,18 +67,17 @@ const images = [
 ];
 
 const portfolio = document.querySelector('.gallery');
-// portfolio.innerHTML = createImages(images);
 
 function createImages({ preview, original, description }) {
   const elements = `
     <li class="gallery-item">
       <a class="gallery-link" href="${original}">
-         <img
-          class="gallery-image"
-           src="${preview}"
-           data-source="${original}"
-            alt="${description}"
-          />
+        <img
+        class="gallery-image"
+        src="${preview}"
+        data-source="${original}"
+        alt="${description}"
+        />
       </a>
     </li>`;
 
@@ -93,20 +92,19 @@ for (let image of images) {
 
 portfolio.innerHTML = currentModal;
 
-const items = document.querySelectorAll('.gallery-item');
+portfolio.addEventListener('click', event => {
+  event.preventDefault();
 
-items.forEach(item => {
-  item.addEventListener('click', event => {
-    event.preventDefault();
+  const targetImage = event.target.closest('.gallery-item');
 
-    const imageSource =
-      event.currentTarget.querySelector('.gallery-image').dataset.source;
-    console.log(imageSource);
+  if (!targetImage) return;
 
-    let currentImage = images.find(item => item.original == imageSource);
-    console.log(currentImage);
+  const imageSource =
+    targetImage.querySelector('.gallery-image').dataset.source;
 
-    currentModal = `
+  let currentImage = images.find(item => item.original == imageSource);
+
+  currentModal = `
       <li class="gallery-item">
         <img
           class="gallery-image"
@@ -115,25 +113,22 @@ items.forEach(item => {
         />
       </li>`;
 
-    currentModal = basicLightbox.create(currentModal, {
-      onShow: instance => {
-        instance
-          .element()
-          .querySelector('.gallery-image')
-          .addEventListener('click', () => {
-            instance.close();
-          });
-      },
-    });
-
-    currentModal.show();
+  currentModal = basicLightbox.create(currentModal, {
+    onShow: instance => {
+      instance
+        .element()
+        .querySelector('.gallery-image')
+        .addEventListener('click', () => {
+          instance.close();
+        });
+    },
   });
-});
 
-document.addEventListener('keyup', ({ code }) => {
-  if (code !== 'Escape') {
-    return;
-  }
+  document.addEventListener('keyup', ({ code }) => {
+    if (code !== 'Escape') return;
 
-  currentModal.close();
+    currentModal.close();
+  });
+
+  currentModal.show();
 });
